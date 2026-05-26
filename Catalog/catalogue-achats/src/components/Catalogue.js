@@ -73,6 +73,7 @@ export default function Catalogue({ rafraichir }) {
           <thead>
             <tr>
               <th>Description</th>
+              <th>Format</th>
               <th>Prix</th>
               <th>Endroit</th>
               <th>Date</th>
@@ -85,6 +86,7 @@ export default function Catalogue({ rafraichir }) {
             {achatsFiltres.map((achat) => (
               <tr key={achat.id}>
                 <td>{achat.description}</td>
+                <td>{achat.quantite || "-"}</td>
                 <td className="prix">{achat.prix.toFixed(2)} $</td>
                 <td>{achat.endroit}</td>
                 <td>{achat.date}</td>

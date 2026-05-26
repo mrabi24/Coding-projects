@@ -4,15 +4,15 @@ import { db } from "../firebaseConfig";
 import { collection, addDoc } from "firebase/firestore";
 
 export default function FormulaireAchat({ onAchatAjoute }) {
-  // Petite fonction pour obtenir la date d'aujourd'hui au format "AAAA-MM-JJ"
   const getAujourdhui = () => {
     const auj = new Date();
     return auj.toISOString().split("T")[0];
   };
 
-  // On utilise getAujourdhui() pour la date par défaut au lieu de ''
+  // 1. AJOUT : On ajoute 'quantite' à l'état initial
   const [item, setItem] = useState({
     description: "",
+    quantite: "", // <-- NOUVEAU
     prix: "",
     endroit: "",
     date: getAujourdhui(),
@@ -26,6 +26,7 @@ export default function FormulaireAchat({ onAchatAjoute }) {
     try {
       await addDoc(collection(db, "achats"), {
         description: item.description,
+        quantite: item.quantite, // <-- AJOUT pour Firebase
         prix: parseFloat(item.prix),
         endroit: item.endroit,
         date: item.date,
@@ -33,9 +34,10 @@ export default function FormulaireAchat({ onAchatAjoute }) {
         createdAt: new Date(),
       });
 
-      // On remet la date d'aujourd'hui après avoir vidé le formulaire
+      // 2. AJOUT : On réinitialise 'quantite' après l'ajout
       setItem({
         description: "",
+        quantite: "", // <-- NOUVEAU
         prix: "",
         endroit: "",
         date: getAujourdhui(),
@@ -48,7 +50,6 @@ export default function FormulaireAchat({ onAchatAjoute }) {
     }
   };
 
-  // Le reste de ton code (le return avec le formulaire) reste EXACTEMENT pareil
   return (
     <form className="formulaire" onSubmit={handleSubmit}>
       <input
@@ -57,6 +58,15 @@ export default function FormulaireAchat({ onAchatAjoute }) {
         value={item.description}
         onChange={(e) => setItem({ ...item, description: e.target.value })}
       />
+
+      {/* 3. AJOUT : Le nouveau champ visuel dans le formulaire */}
+      <input
+        type="text"
+        placeholder="Format/Qté (Optionnel, ex: 2L, 500g)"
+        value={item.quantite}
+        onChange={(e) => setItem({ ...item, quantite: e.target.value })}
+      />
+
       <input
         type="number"
         step="0.01"
