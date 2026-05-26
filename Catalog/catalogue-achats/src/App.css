@@ -121,3 +121,81 @@ tr:hover {
 .btn-supprimer:hover {
   background-color: #c0392b;
 }
+
+/* =========================================
+   ADAPTATION POUR LES TÉLÉPHONES (MOBILE)
+   ========================================= */
+@media (max-width: 768px) {
+
+  /* 1. On cache l'en-tête du tableau qui n'est plus utile */
+  thead {
+    display: none;
+  }
+
+  /* 2. On transforme chaque ligne d'achat en une "carte" blanche */
+  tr {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    padding: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  /* 3. On espace le contenu de chaque cellule (Titre à gauche, Valeur à droite) */
+  td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #f8f9fa;
+    padding: 10px 0;
+    text-align: right;
+  }
+
+  /* 4. On ajoute les étiquettes de texte automatiquement grâce au CSS */
+  td:nth-of-type(1)::before {
+    content: "Description :";
+    font-weight: 600;
+    color: #7f8c8d;
+  }
+
+  td:nth-of-type(2)::before {
+    content: "Prix :";
+    font-weight: 600;
+    color: #7f8c8d;
+  }
+
+  td:nth-of-type(3)::before {
+    content: "Endroit :";
+    font-weight: 600;
+    color: #7f8c8d;
+  }
+
+  td:nth-of-type(4)::before {
+    content: "Date :";
+    font-weight: 600;
+    color: #7f8c8d;
+  }
+
+  td:nth-of-type(5)::before {
+    content: "Catégorie :";
+    font-weight: 600;
+    color: #7f8c8d;
+  }
+
+  /* 5. On ajuste la zone du bouton supprimer */
+  td:last-child {
+    border-bottom: none;
+    justify-content: center;
+    padding-top: 20px;
+  }
+
+  /* Le bouton supprimer prend toute la largeur pour être facile à cliquer */
+  .btn-supprimer {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+  }
+}

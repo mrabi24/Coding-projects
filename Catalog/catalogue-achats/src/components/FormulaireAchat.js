@@ -1,14 +1,21 @@
-// src/components/FormulaireAchat.jsx
+// src/components/FormulaireAchat.js
 import React, { useState } from "react";
 import { db } from "../firebaseConfig";
 import { collection, addDoc } from "firebase/firestore";
 
 export default function FormulaireAchat({ onAchatAjoute }) {
+  // Petite fonction pour obtenir la date d'aujourd'hui au format "AAAA-MM-JJ"
+  const getAujourdhui = () => {
+    const auj = new Date();
+    return auj.toISOString().split("T")[0];
+  };
+
+  // On utilise getAujourdhui() pour la date par défaut au lieu de ''
   const [item, setItem] = useState({
     description: "",
     prix: "",
     endroit: "",
-    date: "",
+    date: getAujourdhui(),
     categorie: "Épicerie",
   });
 
@@ -26,23 +33,24 @@ export default function FormulaireAchat({ onAchatAjoute }) {
         createdAt: new Date(),
       });
 
-      // Réinitialiser le formulaire
+      // On remet la date d'aujourd'hui après avoir vidé le formulaire
       setItem({
         description: "",
         prix: "",
         endroit: "",
-        date: "",
+        date: getAujourdhui(),
         categorie: "Épicerie",
       });
-      if (onAchatAjoute) onAchatAjoute(); // Optionnel : pour rafraîchir la liste
+
+      if (onAchatAjoute) onAchatAjoute();
     } catch (error) {
       console.error("Erreur lors de l'ajout : ", error);
     }
   };
 
+  // Le reste de ton code (le return avec le formulaire) reste EXACTEMENT pareil
   return (
     <form className="formulaire" onSubmit={handleSubmit}>
-      {/* Garde tes inputs exactement comme ils étaient */}
       <input
         type="text"
         placeholder="Description (ex: Lait 2%)"
@@ -72,7 +80,6 @@ export default function FormulaireAchat({ onAchatAjoute }) {
         onChange={(e) => setItem({ ...item, categorie: e.target.value })}
       >
         <option value="Épicerie">Épicerie</option>
-        <option value="Électronique">Électronique</option>
         <option value="Autre">Autre</option>
       </select>
       <button type="submit">Ajouter au catalogue</button>
